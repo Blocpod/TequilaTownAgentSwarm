@@ -12,6 +12,12 @@ TequilaTown AgentSwarm coordinates specialized AI agents across guest experience
 
 TequilaTown is an immersive 25,000+ sq ft tequila experience in Miami with 10+ themed rooms, live art, architecture, music, and cultural storytelling.
 
+## About
+
+TequilaTown AgentSwarm is the AI command layer for TequilaTown Miami. It brings together a master orchestrator and specialized agents for guest support, ticketing, VIP upsells, sponsor intelligence, operations, research, documents, decks, images, and video so the event team can move faster while keeping every output on-brand.
+
+The system is designed for real event workflows: helping guests find the right experience, supporting commerce and lead capture, surfacing operational insights, and producing sponsor-ready creative assets from one coordinated dashboard.
+
 ## Agent Roster
 
 **Master Orchestrator**
@@ -74,6 +80,10 @@ The web dashboard opens at `http://127.0.0.1:8080/`.
 ## Dashboard
 
 The TequilaTown AgentSwarm dashboard is committed at `assets/tequilatown/dashboard-mockup.png`.
+
+## License
+
+This is proprietary software for authorized TequilaTown and Blocpod work. See `LICENSE`.
 
 ## Optional Supabase Layer
 

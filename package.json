@@ -2,7 +2,8 @@
     "name": "@blocpod/tequilatown-agent-swarm",
     "version": "0.1.0",
     "description": "TequilaTown Miami multi-agent AI operating system built on Agency Swarm",
-    "license": "MIT",
+    "license": "UNLICENSED",
+    "private": true,
     "bin": {
         "tequilatown-agentswarm": "./bin/tequilatown-agentswarm"
     },

@@ -2,7 +2,7 @@
 name = "tequilatown-agent-swarm"
 description = "TequilaTown Miami multi-agent AI operating system built on Agency Swarm and the OpenAI Agents SDK"
 version = "0.1.0"
-license = { text = "MIT" }
+license = { text = "Proprietary" }
 keywords = ["agency-swarm", "openai", "multi-agent", "tequilatown", "event-operations"]
 requires-python = ">=3.12"
 dependencies = [
