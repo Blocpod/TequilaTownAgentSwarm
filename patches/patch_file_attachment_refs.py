@@ -99,7 +99,7 @@ async def _with_sse_heartbeats(body_iterator, interval_seconds: float = 10.0):
             try:
                 item = await asyncio.wait_for(queue.get(), timeout=interval_seconds)
             except TimeoutError:
-                yield b": openswarm heartbeat\n\n"
+                yield b": tequilatown-agentswarm heartbeat\n\n"
                 continue
             if item is sentinel:
                 break

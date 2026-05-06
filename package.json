@@ -4,7 +4,7 @@
     "description": "TequilaTown Miami multi-agent AI operating system built on Agency Swarm",
     "license": "MIT",
     "bin": {
-        "tequilatown-agentswarm": "./bin/openswarm"
+        "tequilatown-agentswarm": "./bin/tequilatown-agentswarm"
     },
     "files": [
         "bin/",
@@ -44,7 +44,7 @@
         "package-lock.json"
     ],
     "scripts": {
-        "postinstall": "node -e \"const fs=require('fs');const path=require('path');const cp=require('child_process');const pkg=__dirname;const patchTarget=path.join(pkg,'node_modules','dom-to-pptx');const patchCli=path.join(pkg,'node_modules','patch-package','index.js');if(fs.existsSync(patchTarget)&&fs.existsSync(patchCli)){cp.execFileSync(process.execPath,[patchCli],{cwd:pkg,stdio:'inherit'});}try{fs.chmodSync(path.join(pkg,'bin','openswarm'),0o755)}catch(e){}\""
+        "postinstall": "node -e \"const fs=require('fs');const path=require('path');const cp=require('child_process');const pkg=__dirname;const patchTarget=path.join(pkg,'node_modules','dom-to-pptx');const patchCli=path.join(pkg,'node_modules','patch-package','index.js');if(fs.existsSync(patchTarget)&&fs.existsSync(patchCli)){cp.execFileSync(process.execPath,[patchCli],{cwd:pkg,stdio:'inherit'});}try{fs.chmodSync(path.join(pkg,'bin','tequilatown-agentswarm'),0o755)}catch(e){}\""
     },
     "dependencies": {
         "@vrsen/agentswarm": "latest",

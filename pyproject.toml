@@ -57,7 +57,6 @@ dependencies = [
 ]
 
 [project.scripts]
-openswarm = "run_utils:main"
 tequilatown-agentswarm = "run_utils:main"
 
 [tool.setuptools]

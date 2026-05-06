@@ -1,8 +1,14 @@
+<div align="center">
+
+![Tequila Town](assets/tequilatown/logo.png)
+
 # TequilaTown AgentSwarm
 
-A modular AI ecosystem for TequilaTown Miami: guest experience, commerce, operations, insights, sponsor intelligence, and creative execution.
+A modular AI operating system for TequilaTown Miami.
 
-This project is intentionally a straight-up OpenSwarm clone with TequilaTown branding, agent roster, runtime defaults, Supabase starter schema, and logo layered on top. Keep the upstream OpenSwarm structure intact unless a TequilaTown requirement truly needs a change.
+</div>
+
+TequilaTown AgentSwarm coordinates specialized AI agents across guest experience, commerce, operations, analytics, sponsor intelligence, and creative execution for TequilaTown Miami.
 
 TequilaTown is an immersive 25,000+ sq ft tequila experience in Miami with 10+ themed rooms, live art, architecture, music, and cultural storytelling.
 
@@ -65,19 +71,10 @@ python server.py
 
 ## Logo
 
-The only TequilaTown asset committed to git is `assets/tequilatown/logo.svg`. Large media, app assets, picture-bank folders, fonts, and nested zip archives are intentionally not committed. Use Git LFS or external storage before adding production media.
+The Tequila Town logo is committed at `assets/tequilatown/logo.png`.
 
 ## Optional Supabase Layer
 
 The repo includes `supabase/migrations/001_tequilatown_agent_swarm.sql`, a starter schema for agent events, guest profiles, tickets, mission progress, purchases, feedback, sponsors, activations, ops issues, content assets, and schedule blocks.
 
-Because Supabase changed new-table Data API exposure behavior in April 2026, this migration enables RLS on public tables and grants baseline table/sequence access to `anon` and `authenticated`. Policies are intentionally conservative; tune them before production based on the actual guest app, staff app, and service-role flows.
-
-## Push Target
-
-The intended GitHub destination is:
-
-```bash
-git remote set-url origin https://github.com/Blocpod/TequilaTownAgentSwarm.git
-git push -u origin main
-```
+The migration enables RLS on public tables and grants baseline table/sequence access to `anon` and `authenticated`. Policies are intentionally conservative; tune them before production based on the actual guest app, staff app, and service-role flows.

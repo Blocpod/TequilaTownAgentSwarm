@@ -32,7 +32,7 @@
 const path   = require('path');
 if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
   // Prefer a project-local cache in the current working directory.
-  // (The launcher creates/runs projects from ./openswarm, so this becomes ./openswarm/.playwright-browsers.)
+  // Keep browser installs local to the launcher workspace.
   process.env.PLAYWRIGHT_BROWSERS_PATH = path.resolve(process.cwd(), '.playwright-browsers');
 }
 const fs     = require('fs');

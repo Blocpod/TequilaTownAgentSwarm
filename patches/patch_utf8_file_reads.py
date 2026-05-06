@@ -2,7 +2,7 @@
 
 Agency Swarm currently reads agent and shared instruction files with the
 platform default encoding. On Windows that can be cp1252, which fails on the
-UTF-8 markdown shipped with OpenSwarm before the local TUI bridge starts.
+UTF-8 markdown shipped with TequilaTown AgentSwarm before the local TUI bridge starts.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ def apply_utf8_file_read_patch() -> None:
     except Exception:
         return
 
-    if getattr(AgentFileManager.read_instructions, "_openswarm_utf8_patched", False):
+    if getattr(AgentFileManager.read_instructions, "_tequilatown_utf8_patched", False):
         return
 
     def read_shared_instructions(agency, path: str) -> None:
@@ -41,7 +41,7 @@ def apply_utf8_file_read_patch() -> None:
             with open(self.agent.instructions, encoding="utf-8") as f:
                 self.agent.instructions = f.read()
 
-    read_agent_instructions._openswarm_utf8_patched = True  # type: ignore[attr-defined]
+    read_agent_instructions._tequilatown_utf8_patched = True  # type: ignore[attr-defined]
 
     agency_helpers.read_instructions = read_shared_instructions
     agency_core.read_instructions = read_shared_instructions

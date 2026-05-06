@@ -140,12 +140,14 @@ def _bootstrap() -> None:
         except Exception:
             pass
 
-    # Download the upstream TUI binary from OpenSwarm releases if missing.
+    # Download an optional custom TUI binary if configured.
     _bin_name = _resolve_bin_name()
     _bin_path = _repo / _bin_name
     if not _bin_path.exists():
         import urllib.request
-        _bin_url = f"https://github.com/VRSEN/OpenSwarm/releases/latest/download/{_bin_name}"
+        _bin_url = os.getenv("TEQUILATOWN_TUI_URL", "").strip()
+        if not _bin_url:
+            return
         print("Downloading TequilaTown AgentSwarm TUI, please wait…\n")
         try:
             urllib.request.urlretrieve(_bin_url, str(_bin_path))
@@ -189,8 +191,8 @@ def _configure_demo_console() -> None:
     import warnings
 
     # By default, silence *all* console output for demo runs.
-    # Opt out by setting OPENSWARM_DEMO_SILENCE_CONSOLE=0 / false / off.
-    silence_env = os.getenv("OPENSWARM_DEMO_SILENCE_CONSOLE", "").strip().lower()
+    # Opt out by setting TEQUILATOWN_DEMO_SILENCE_CONSOLE=0 / false / off.
+    silence_env = os.getenv("TEQUILATOWN_DEMO_SILENCE_CONSOLE", "").strip().lower()
     silence_console = silence_env not in {"0", "false", "no", "off"}
 
     if silence_console:
@@ -205,7 +207,7 @@ def _configure_demo_console() -> None:
         return
 
     # Keep this opt-in so developers can still see warnings when needed.
-    if os.getenv("OPENSWARM_DEMO_SHOW_WARNINGS", "").strip().lower() in {"1", "true", "yes", "on"}:
+    if os.getenv("TEQUILATOWN_DEMO_SHOW_WARNINGS", "").strip().lower() in {"1", "true", "yes", "on"}:
         return
 
     # pyzmq RuntimeWarning on Windows ProactorEventLoop (common with Python 3.8+ / 3.12)
@@ -253,8 +255,8 @@ def main() -> None:
 
     from swarm import create_agency
 
-    onboard_flag = Path(tempfile.gettempdir()) / "_openswarm_onboard.flag"
-    os.environ["OPENSWARM_ONBOARD_FLAG"] = str(onboard_flag)
+    onboard_flag = Path(tempfile.gettempdir()) / "_tequilatown_agentswarm_onboard.flag"
+    os.environ["TEQUILATOWN_ONBOARD_FLAG"] = str(onboard_flag)
     onboard_flag.unlink(missing_ok=True)
 
     while True:
