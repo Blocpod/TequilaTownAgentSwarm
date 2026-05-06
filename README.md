@@ -1,10 +1,10 @@
 <div align="center">
 
-![Tequila Town](assets/tequilatown/logo.png)
-
 # TequilaTown AgentSwarm
 
 A modular AI operating system for TequilaTown Miami.
+
+![TequilaTown AgentSwarm dashboard](assets/tequilatown/dashboard-mockup.png)
 
 </div>
 
@@ -71,9 +71,9 @@ python server.py
 
 The web dashboard opens at `http://127.0.0.1:8080/`.
 
-## Logo
+## Dashboard
 
-The Tequila Town logo is committed at `assets/tequilatown/logo.png`.
+The TequilaTown AgentSwarm dashboard is committed at `assets/tequilatown/dashboard-mockup.png`.
 
 ## Optional Supabase Layer
 
