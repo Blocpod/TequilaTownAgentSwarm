@@ -24,6 +24,8 @@
         "slides_agent/",
         "video_generation_agent/",
         "virtual_assistant/",
+        "tequilatown_ui/",
+        "assets/tequilatown/logo.png",
         "ai_bartender/",
         "ai_chef/",
         "tour_guide/",

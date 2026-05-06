@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TequilaTown AgentSwarm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand-lockup">
+          <img src="/assets/tequilatown/logo.png" alt="Tequila Town">
+        </div>
+        <nav class="nav-list">
+          <button class="nav-button is-active" type="button" data-target="dashboard">
+            <span class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></span>
+            Dashboard
+          </button>
+          <button class="nav-button" type="button" data-target="agents">
+            <span class="mini-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg></span>
+            Agent Swarm
+          </button>
+          <button class="nav-button" type="button" data-target="quick-actions">
+            <span class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h4"/></svg></span>
+            Missions
+          </button>
+          <button class="nav-button" type="button" data-target="activity">
+            <span class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5M9 19V9M14 19V3M19 19v-7M2 19h20"/></svg></span>
+            Analytics
+          </button>
+          <button class="nav-button" type="button" data-target="creative">
+            <span class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4zM14 6l3 3"/></svg></span>
+            Creative Studio
+          </button>
+          <button class="nav-button" type="button" data-target="status">
+            <span class="mini-icon"><svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M4 12h2M18 12h2M12 4v2M12 18v2"/></svg></span>
+            Settings
+          </button>
+        </nav>
+        <div class="operator-card">
+          <img src="/assets/tequilatown/logo.png" alt="">
+          <div>
+            <strong>AQ-AI</strong>
+            <span>System Operator</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="greeting">Good Evening, AQ-AI</div>
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-4-4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            <input type="search" placeholder="Search agents, guests, missions...">
+            <kbd>⌘ K</kbd>
+          </label>
+          <div class="topbar-actions">
+            <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme"><span id="themeLabel">Dark</span></button>
+            <button class="icon-button" type="button" aria-label="Notifications">3</button>
+            <span class="profile-dot" aria-hidden="true"></span>
+          </div>
+        </header>
+
+        <div class="dashboard-grid" id="dashboard">
+          <section class="main-column">
+            <section class="hero">
+              <div class="hero-copy">
+                <p class="eyebrow" id="eventTime">Live in Miami</p>
+                <h1>TequilaTown AgentSwarm</h1>
+                <p id="heroTagline">Your intelligent crew for the TequilaTown experience.</p>
+                <div class="health-pill"><span>Swarm Health</span><i></i><b id="activeAgents">21/21</b></div>
+              </div>
+              <div class="hero-art" aria-hidden="true">
+                <span class="hero-rings"></span>
+                <img src="/assets/tequilatown/logo.png" alt="">
+              </div>
+            </section>
+
+            <div class="section-head" id="agents">
+              <h2 class="section-title">Your Agents</h2>
+              <a class="section-link" href="#status">Manage Swarm</a>
+            </div>
+            <section class="agent-grid" id="agentGrid" aria-live="polite"></section>
+
+            <div class="section-head" id="quick-actions">
+              <h2 class="section-title">Quick Actions</h2>
+            </div>
+            <section class="quick-actions" id="quickActions"></section>
+
+            <section class="bottom-metrics" aria-label="Swarm metrics">
+              <div class="agent-card mini-metric"><span>Sentiment</span><strong id="sentiment">4.7/5</strong></div>
+              <div class="agent-card mini-metric"><span>Sponsor Leads</span><strong id="sponsorLeads">78</strong></div>
+              <div class="agent-card mini-metric"><span>Ticket Revenue</span><strong id="ticketRevenue">$26.4K</strong></div>
+              <div class="agent-card mini-metric"><span>System</span><strong>Live</strong></div>
+            </section>
+          </section>
+
+          <aside class="side-column" id="status">
+            <section class="metric-panel">
+              <div class="system-good"><strong>System Status</strong><span><i></i> All Systems Go</span></div>
+              <div class="performance">
+                <strong id="performance">100%</strong>
+                <span class="stat-label">Swarm Performance</span>
+              </div>
+              <svg class="sparkline" viewBox="0 0 320 120" role="img" aria-label="Performance trend">
+                <polygon points="0,94 0,70 38,58 72,72 108,42 146,48 181,38 218,58 252,34 286,48 320,26 320,120 0,120"/>
+                <path d="M0 70C28 48 44 60 72 72S104 34 146 48s47-26 72 10 47-48 68-10 28-2 34-22"/>
+              </svg>
+              <div class="metric-row">
+                <div class="metric-card"><strong id="tasksToday">32</strong><span class="stat-label">Tasks Today</span></div>
+                <div class="metric-card"><strong id="completed">18</strong><span class="stat-label">Completed</span></div>
+                <div class="metric-card"><strong id="timeSaved">2.4h</strong><span class="stat-label">Time Saved</span></div>
+              </div>
+            </section>
+
+            <section class="activity-card" id="activity">
+              <h2>Activity Feed</h2>
+              <ul class="activity-list" id="activityFeed"></ul>
+            </section>
+
+            <section class="quote-card" id="creative">
+              <div class="quote-mark">“</div>
+              <p>We don’t just create experiences, we engineer memories.</p>
+              <strong>Drink to Remember</strong>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <script src="/static/dashboard.js"></script>
+  </body>
+</html>

@@ -69,6 +69,8 @@ For API mode:
 python server.py
 ```
 
+The web dashboard opens at `http://127.0.0.1:8080/`.
+
 ## Logo
 
 The Tequila Town logo is committed at `assets/tequilatown/logo.png`.
