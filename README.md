@@ -2,7 +2,9 @@
 
 A modular AI ecosystem for TequilaTown Miami: guest experience, commerce, operations, insights, sponsor intelligence, and creative execution.
 
-This project is forked from OpenSwarm and customized for TequilaTown, an immersive 25,000+ sq ft tequila experience in Miami with 10+ themed rooms, live art, architecture, music, and cultural storytelling.
+This project is intentionally a straight-up OpenSwarm clone with TequilaTown branding, agent roster, runtime defaults, Supabase starter schema, and logo layered on top. Keep the upstream OpenSwarm structure intact unless a TequilaTown requirement truly needs a change.
+
+TequilaTown is an immersive 25,000+ sq ft tequila experience in Miami with 10+ themed rooms, live art, architecture, music, and cultural storytelling.
 
 ## Agent Roster
 
@@ -60,6 +62,10 @@ For API mode:
 ```bash
 python server.py
 ```
+
+## Logo
+
+The only TequilaTown asset committed to git is `assets/tequilatown/logo.svg`. Large media, app assets, picture-bank folders, fonts, and nested zip archives are intentionally not committed. Use Git LFS or external storage before adding production media.
 
 ## Optional Supabase Layer
 
