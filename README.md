@@ -81,6 +81,10 @@ The web dashboard opens at `http://127.0.0.1:8080/`.
 
 The TequilaTown AgentSwarm dashboard is committed at `assets/tequilatown/dashboard-mockup.png`.
 
+## Project Status
+
+The current audit and remaining production work are tracked in `docs/PROJECT_AUDIT.md`.
+
 ## License
 
 This is proprietary software for authorized TequilaTown and Blocpod work. See `LICENSE`.

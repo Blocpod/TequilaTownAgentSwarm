@@ -229,9 +229,29 @@ def dashboard_state() -> dict:
         "agents": AGENTS,
         "activity": ACTIVITY,
         "quickActions": [
-            {"label": "New Mission", "description": "Create and route a swarm task", "tone": "green"},
-            {"label": "New Project", "description": "Launch a campaign workspace", "tone": "green"},
-            {"label": "Upload Brief", "description": "Add files to the knowledge base", "tone": "gold"},
-            {"label": "Swarm Report", "description": "Generate a performance report", "tone": "blue"},
+            {
+                "label": "New Mission",
+                "description": "Create and route a swarm task",
+                "tone": "green",
+                "prompt": "Route a TequilaTown mission to the right specialist agents.",
+            },
+            {
+                "label": "New Project",
+                "description": "Launch a campaign workspace",
+                "tone": "green",
+                "prompt": "Launch a new TequilaTown campaign workspace with owners, assets, and next steps.",
+            },
+            {
+                "label": "Upload Brief",
+                "description": "Add files to the knowledge base",
+                "tone": "gold",
+                "prompt": "Summarize this brief, extract tasks, and route follow-up work.",
+            },
+            {
+                "label": "Swarm Report",
+                "description": "Generate a performance report",
+                "tone": "blue",
+                "prompt": "Create a TequilaTown AgentSwarm performance report with risks and next actions.",
+            },
         ],
     }

@@ -11,6 +11,8 @@ from fastapi.staticfiles import StaticFiles
 from agency_swarm.integrations.fastapi import run_fastapi
 from swarm import create_agency
 from tequilatown_ui.dashboard_state import dashboard_state
+from tequilatown_ui.mission_routing import MissionRequest, route_mission
+from tequilatown_ui.system_status import system_status
 
 load_dotenv()
 
@@ -41,6 +43,16 @@ def dashboard() -> FileResponse:
 @app.get("/api/dashboard/state")
 def get_dashboard_state() -> dict:
     return dashboard_state()
+
+
+@app.get("/api/system/status")
+def get_system_status() -> dict:
+    return system_status()
+
+
+@app.post("/api/missions/route")
+def post_mission_route(mission: MissionRequest) -> dict:
+    return route_mission(mission)
 
 
 @app.get("/api/health")

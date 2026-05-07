@@ -23,6 +23,7 @@ const iconPaths = {
 };
 
 const $ = (selector) => document.querySelector(selector);
+let currentState = null;
 
 function icon(name) {
   return `<svg viewBox="0 0 24 24" aria-hidden="true">${iconPaths[name] || iconPaths.agave}</svg>`;
@@ -36,7 +37,12 @@ function setTheme(theme) {
 
 function buildAgentCard(agent) {
   return `
-    <article class="agent-card tone-${agent.tone}">
+    <article class="agent-card tone-${agent.tone}" data-agent-card data-search="${[
+      agent.name,
+      agent.group,
+      agent.description,
+      agent.metric,
+    ].join(" ").toLowerCase()}">
       <div class="agent-topline">
         <span class="agent-icon">${icon(agent.icon)}</span>
         <span class="agent-status"><i></i>${agent.status}</span>
@@ -63,7 +69,7 @@ function buildActivityItem(item) {
 
 function buildQuickAction(action) {
   return `
-    <button class="quick-action tone-${action.tone}" type="button">
+    <button class="quick-action tone-${action.tone}" type="button" data-action="${action.label}" data-prompt="${action.prompt}">
       <span>
         <strong>${action.label}</strong>
         <small>${action.description}</small>
@@ -74,6 +80,7 @@ function buildQuickAction(action) {
 }
 
 function renderState(state) {
+  currentState = state;
   $("#eventTime").textContent = state.event.localTime;
   $("#heroTagline").textContent = state.event.tagline;
   $("#performance").textContent = `${state.health.performance}%`;
@@ -88,12 +95,97 @@ function renderState(state) {
   $("#agentGrid").innerHTML = state.agents.map(buildAgentCard).join("");
   $("#activityFeed").innerHTML = state.activity.map(buildActivityItem).join("");
   $("#quickActions").innerHTML = state.quickActions.map(buildQuickAction).join("");
+  bindQuickActions();
 }
 
 async function loadState() {
   const response = await fetch("/api/dashboard/state", { headers: { Accept: "application/json" } });
   if (!response.ok) throw new Error("Dashboard state unavailable");
   renderState(await response.json());
+}
+
+async function loadSystemStatus() {
+  const response = await fetch("/api/system/status", { headers: { Accept: "application/json" } });
+  if (!response.ok) throw new Error("System status unavailable");
+  renderSystemStatus(await response.json());
+}
+
+function renderSystemStatus(status) {
+  const label = $("#systemStatusLabel");
+  const levelClass = status.level === "blocked" ? "is-blocked" : status.level === "warning" ? "is-warning" : "";
+  label.className = levelClass;
+  label.innerHTML = `<i></i> ${status.level === "ready" ? "Ready" : status.level === "warning" ? "Needs Token" : "Needs Keys"}`;
+  $("#systemSummary").textContent = status.summary;
+  $("#diagnosticsList").innerHTML = status.checks
+    .slice(0, 6)
+    .map((check) => `
+      <li>
+        <strong>${check.name}</strong>
+        <span class="${check.configured ? "" : "is-missing"}">${check.configured ? "Configured" : "Missing"}</span>
+      </li>
+    `)
+    .join("");
+}
+
+function bindSearch() {
+  const input = $("#globalSearch");
+  input.addEventListener("input", () => {
+    const query = input.value.trim().toLowerCase();
+    document.querySelectorAll("[data-agent-card]").forEach((card) => {
+      card.hidden = query.length > 0 && !card.dataset.search.includes(query);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+      event.preventDefault();
+      input.focus();
+    }
+  });
+}
+
+function bindQuickActions() {
+  document.querySelectorAll(".quick-action").forEach((button) => {
+    button.addEventListener("click", () => {
+      $("#missionTitle").value = button.dataset.action || "New Mission";
+      $("#missionType").value = button.dataset.action || "New Mission";
+      $("#missionDescription").value = button.dataset.prompt || "";
+      document.getElementById("missionPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+      $("#missionDescription").focus();
+    });
+  });
+}
+
+function bindMissionForm() {
+  $("#missionForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const result = $("#missionResult");
+    const payload = {
+      title: $("#missionTitle").value,
+      missionType: $("#missionType").value,
+      description: $("#missionDescription").value,
+    };
+    result.classList.add("is-visible");
+    result.textContent = "Routing mission...";
+
+    try {
+      const response = await fetch("/api/missions/route", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error("Mission routing failed");
+      const route = await response.json();
+      result.innerHTML = `
+        <strong>${route.recommendedAgent}</strong> is the recommended lead.
+        <br>${route.nextSteps.join(" ")}
+        <br><span class="mission-endpoint">Endpoint: ${route.streamEndpoint}</span>
+      `;
+    } catch (error) {
+      console.error(error);
+      result.textContent = "Mission routing is unavailable. Check the local server and try again.";
+    }
+  });
 }
 
 function bindNav() {
@@ -114,8 +206,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
   });
   bindNav();
+  bindSearch();
+  bindMissionForm();
   loadState().catch((error) => {
     console.error(error);
     document.body.classList.add("state-error");
+  });
+  loadSystemStatus().catch((error) => {
+    console.error(error);
+    $("#systemSummary").textContent = "System diagnostics are unavailable.";
   });
 });

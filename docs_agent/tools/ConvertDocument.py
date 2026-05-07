@@ -7,9 +7,7 @@ import html2text
 from agency_swarm.tools import BaseTool, ToolOutputText, tool_output_file_from_path
 from bs4 import BeautifulSoup
 from pydantic import Field
-from weasyprint import HTML
 
-from .CreateDocument import CreateDocument
 from .utils.html_docx_core import html_to_docx
 from .utils.html_docx_images import embed_local_images
 from .utils.html_docx_playwright import auto_page_breaks
@@ -169,6 +167,14 @@ Path: {output_path}"""
     
     def _convert_to_pdf(self, html_content: str, output_path: Path):
         """Convert HTML to PDF using weasyprint."""
+        try:
+            from weasyprint import HTML
+        except ImportError as exc:
+            raise RuntimeError(
+                "PDF export requires WeasyPrint and its system libraries. "
+                "Install Cairo/Pango/GObject for your platform, then retry."
+            ) from exc
+
         HTML(string=_normalize_unicode(html_content)).write_pdf(output_path)
 
     def _convert_to_docx(self, html_content: str, output_path: Path):
@@ -190,6 +196,8 @@ Path: {output_path}"""
 
 
 if __name__ == "__main__":
+    from .CreateDocument import CreateDocument
+
     print("=" * 70)
     print("TEST: ConvertDocument Tool")
     print("=" * 70)

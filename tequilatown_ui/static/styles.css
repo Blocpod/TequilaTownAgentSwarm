@@ -470,7 +470,9 @@ input {
 .metric-panel,
 .activity-card,
 .quote-card,
-.quick-action {
+.quick-action,
+.mission-panel,
+.diagnostics-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -608,6 +610,112 @@ input {
   font-weight: 400;
 }
 
+.mission-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 18px;
+  padding: 20px;
+}
+
+.mission-copy h2 {
+  margin: 0;
+  font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 20px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.mission-copy p:last-child {
+  margin: 14px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.mission-form {
+  display: grid;
+  gap: 12px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 12px;
+}
+
+.mission-form label {
+  display: grid;
+  gap: 7px;
+}
+
+.mission-form label span,
+.diagnostics-card h2 {
+  font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.mission-form input,
+.mission-form select,
+.mission-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.16);
+  color: var(--ink);
+  outline: none;
+}
+
+:root:not([data-theme="dark"]) .mission-form input,
+:root:not([data-theme="dark"]) .mission-form select,
+:root:not([data-theme="dark"]) .mission-form textarea {
+  background: rgba(255, 250, 240, 0.76);
+}
+
+.mission-form textarea {
+  resize: vertical;
+}
+
+.mission-submit {
+  justify-self: start;
+  min-height: 42px;
+  border: 1px solid rgba(155, 200, 90, 0.4);
+  border-radius: 8px;
+  padding: 0 18px;
+  background: rgba(132, 164, 87, 0.18);
+  color: var(--green);
+  cursor: pointer;
+  font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+}
+
+.mission-result {
+  grid-column: 1 / -1;
+  display: none;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.mission-result.is-visible {
+  display: block;
+}
+
+.mission-result strong {
+  color: var(--ink);
+}
+
+.mission-endpoint {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
 .side-column {
   display: grid;
   gap: 18px;
@@ -616,7 +724,8 @@ input {
 
 .metric-panel,
 .activity-card,
-.quote-card {
+.quote-card,
+.diagnostics-card {
   padding: 22px;
 }
 
@@ -632,6 +741,14 @@ input {
 
 .system-good span {
   color: var(--green);
+}
+
+.system-good span.is-warning {
+  color: var(--gold);
+}
+
+.system-good span.is-blocked {
+  color: var(--brand-2);
 }
 
 .performance {
@@ -685,6 +802,47 @@ input {
   display: block;
   color: var(--teal);
   font-size: 28px;
+}
+
+.diagnostics-card h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.diagnostics-card p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.diagnostics-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diagnostics-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.diagnostics-list strong {
+  color: var(--ink);
+}
+
+.diagnostics-list span {
+  color: var(--green);
+}
+
+.diagnostics-list span.is-missing {
+  color: var(--gold);
 }
 
 .activity-card h2 {
@@ -875,8 +1033,13 @@ input {
 
   .agent-grid,
   .quick-actions,
-  .bottom-metrics {
+  .bottom-metrics,
+  .mission-panel {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mission-panel {
+    grid-template-columns: 1fr;
   }
 
   .side-column {
@@ -902,6 +1065,7 @@ input {
   .agent-grid,
   .quick-actions,
   .bottom-metrics,
+  .field-row,
   .metric-row {
     grid-template-columns: 1fr;
   }

@@ -55,7 +55,7 @@
           <div class="greeting">Good Evening, AQ-AI</div>
           <label class="search-box">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-4-4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-            <input type="search" placeholder="Search agents, guests, missions...">
+            <input id="globalSearch" type="search" placeholder="Search agents, guests, missions...">
             <kbd>⌘ K</kbd>
           </label>
           <div class="topbar-actions">
@@ -91,6 +91,37 @@
             </div>
             <section class="quick-actions" id="quickActions"></section>
 
+            <section class="mission-panel" id="missionPanel">
+              <div class="mission-copy">
+                <p class="eyebrow">Mission Router</p>
+                <h2>Create a Swarm Mission</h2>
+                <p>Draft a task, route it to the right specialist, and prepare the prompt for live execution.</p>
+              </div>
+              <form class="mission-form" id="missionForm">
+                <div class="field-row">
+                  <label>
+                    <span>Mission</span>
+                    <input id="missionTitle" name="title" type="text" value="New Mission" required>
+                  </label>
+                  <label>
+                    <span>Type</span>
+                    <select id="missionType" name="missionType">
+                      <option>New Mission</option>
+                      <option>New Project</option>
+                      <option>Upload Brief</option>
+                      <option>Swarm Report</option>
+                    </select>
+                  </label>
+                </div>
+                <label>
+                  <span>Brief</span>
+                  <textarea id="missionDescription" name="description" rows="4" required>Route a TequilaTown mission to the right specialist agents.</textarea>
+                </label>
+                <button class="mission-submit" type="submit">Route Mission</button>
+              </form>
+              <div class="mission-result" id="missionResult" aria-live="polite"></div>
+            </section>
+
             <section class="bottom-metrics" aria-label="Swarm metrics">
               <div class="agent-card mini-metric"><span>Sentiment</span><strong id="sentiment">4.7/5</strong></div>
               <div class="agent-card mini-metric"><span>Sponsor Leads</span><strong id="sponsorLeads">78</strong></div>
@@ -101,7 +132,7 @@
 
           <aside class="side-column" id="status">
             <section class="metric-panel">
-              <div class="system-good"><strong>System Status</strong><span><i></i> All Systems Go</span></div>
+              <div class="system-good"><strong>System Status</strong><span id="systemStatusLabel"><i></i> Checking</span></div>
               <div class="performance">
                 <strong id="performance">100%</strong>
                 <span class="stat-label">Swarm Performance</span>
@@ -115,6 +146,12 @@
                 <div class="metric-card"><strong id="completed">18</strong><span class="stat-label">Completed</span></div>
                 <div class="metric-card"><strong id="timeSaved">2.4h</strong><span class="stat-label">Time Saved</span></div>
               </div>
+            </section>
+
+            <section class="diagnostics-card">
+              <h2>Readiness</h2>
+              <p id="systemSummary">Checking local configuration...</p>
+              <ul class="diagnostics-list" id="diagnosticsList"></ul>
             </section>
 
             <section class="activity-card" id="activity">

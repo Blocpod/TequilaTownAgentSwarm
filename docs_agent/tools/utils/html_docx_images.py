@@ -8,7 +8,6 @@ from typing import Dict, Optional
 from urllib.request import Request, urlopen
 
 from bs4.element import Tag
-from cairosvg import svg2png
 from docx.shared import Pt
 
 from .html_docx_css import _parse_length_to_pt
@@ -110,7 +109,12 @@ def _add_svg_run(paragraph, node: Tag, parent_style: Dict[str, str]) -> None:
     svg_xml = _svg_node_to_xml(node, output_width)
 
     try:
+        from cairosvg import svg2png
+
         png_bytes = svg2png(bytestring=svg_xml.encode("utf-8"))
+    except ImportError:
+        paragraph.add_run(node.get_text(" ", strip=True) or "[SVG image]")
+        return
     except Exception:
         return  # silently skip if conversion fails
 
