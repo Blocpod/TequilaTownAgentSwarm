@@ -62,10 +62,30 @@ Routes tasks, coordinates specialists, and unifies outputs.
 
 ## Setup
 
+Install the TequilaTown AgentSwarm package from this repository:
+
+```bash
+npm install github:Blocpod/TequilaTownAgentSwarm
+npx tequilatown-agentswarm
+```
+
+For local development from a checkout:
+
+```bash
+npm install
+```
+
+Create the environment file:
+
 ```bash
 cp .env.example .env
 # Add at least one model provider key:
 # OPENAI_API_KEY, ANTHROPIC_API_KEY, or GOOGLE_API_KEY
+```
+
+Run the local swarm directly:
+
+```bash
 python swarm.py
 ```
 
