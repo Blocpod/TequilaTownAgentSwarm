@@ -35,7 +35,7 @@ def system_status() -> dict:
     checks = []
     for item in INTEGRATIONS:
         configured = [key for key in item.keys if _is_set(key)]
-        complete = len(configured) == len(item.keys)
+        complete = bool(configured) if item.keys == PROVIDER_KEYS else len(configured) == len(item.keys)
         checks.append(
             {
                 "name": item.name,

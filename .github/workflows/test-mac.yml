@@ -5,8 +5,10 @@ on:
     paths:
       - '.github/workflows/build-tui.yml'
       - '.github/workflows/test-mac.yml'
-      - 'bin/openswarm'
+      - 'bin/tequilatown-agentswarm'
       - 'package.json'
+      - 'tequilatown_ui/**'
+      - 'tests/**'
 
 jobs:
   test:
@@ -19,6 +21,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Run Python unit tests
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pydantic
+          python -m pytest -q tests
       - uses: actions/checkout@v4
         with:
           repository: ArtemShatokhin/agentswarm-cli
@@ -78,8 +86,8 @@ jobs:
 
           def resolve_launcher(root):
               candidates = [
-                  root / "node_modules" / ".bin" / "openswarm",
-                  root / "node_modules" / "@vrsen" / "openswarm" / "bin" / "openswarm",
+                  root / "node_modules" / ".bin" / "tequilatown-agentswarm",
+                  root / "node_modules" / "@blocpod" / "tequilatown-agent-swarm" / "bin" / "tequilatown-agentswarm",
               ]
               for candidate in candidates:
                   if candidate.exists():
@@ -87,10 +95,10 @@ jobs:
               return None
 
           repo = pathlib.Path.cwd()
-          root = pathlib.Path(tempfile.mkdtemp(prefix="openswarm-smoke-"))
+          root = pathlib.Path(tempfile.mkdtemp(prefix="tequilatown-agentswarm-smoke-"))
           release_dir = root / "release"
           release_dir.mkdir()
-          env = {**os.environ, "OPENSWARM_DEMO_SILENCE_CONSOLE": "0"}
+          env = {**os.environ, "TEQUILATOWN_DEMO_SILENCE_CONSOLE": "0"}
           binary_name = resolve_binary_name()
           server, thread = start_server(release_dir)
           base_url = f"http://127.0.0.1:{server.server_port}"
@@ -111,7 +119,7 @@ jobs:
 
           if binary is None:
               listing = subprocess.run(
-                  ["find", "node_modules", "-maxdepth", "4", "-name", "openswarm"],
+                  ["find", "node_modules", "-maxdepth", "4", "-name", "tequilatown-agentswarm"],
                   cwd=root,
                   capture_output=True,
                   text=True,
@@ -124,19 +132,19 @@ jobs:
           invalid_runs = []
           success_runs = []
           if binary is not None:
-              failure_env = {**env, "OPENSWARM_TUI_URL": f"{base_url}/missing/{binary_name}"}
+              failure_env = {**env, "TEQUILATOWN_TUI_URL": f"{base_url}/missing/{binary_name}"}
               failure_runs = [run_version(binary, root, failure_env) for _ in range(2)]
 
               invalid_binary = release_dir / binary_name
               invalid_binary.write_text("#!/bin/sh\nkill -9 $$\n", encoding="utf-8")
               invalid_binary.chmod(0o755)
-              invalid_env = {**env, "OPENSWARM_TUI_URL": f"{base_url}/{binary_name}"}
+              invalid_env = {**env, "TEQUILATOWN_TUI_URL": f"{base_url}/{binary_name}"}
               invalid_runs = [run_version(binary, root, invalid_env) for _ in range(2)]
 
               fake_binary = release_dir / binary_name
               fake_binary.write_text("#!/bin/sh\nprintf '9.9.9-custom\\n'\n", encoding="utf-8")
               fake_binary.chmod(0o755)
-              success_env = {**env, "OPENSWARM_TUI_URL": f"{base_url}/{binary_name}"}
+              success_env = {**env, "TEQUILATOWN_TUI_URL": f"{base_url}/{binary_name}"}
               success_runs = [run_version(binary, root, success_env) for _ in range(2)]
 
           server.shutdown()

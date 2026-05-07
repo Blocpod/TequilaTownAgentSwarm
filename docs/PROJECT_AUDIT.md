@@ -24,6 +24,8 @@ Implemented runtime surfaces:
 - Deferred optional Cairo/WeasyPrint/CairoSVG imports so the Docs Agent no longer emits document-rendering dependency errors during normal server startup.
 - Added `APP_TOKEN` to `.env.example`.
 - Included the dashboard mockup in the npm package file list.
+- Cleaned stale source-branding references from the macOS smoke-test workflow.
+- Added deterministic pytest coverage for system readiness and mission routing.
 
 ## Remaining Work
 
@@ -54,9 +56,9 @@ These items are not blockers for local dashboard use, but they are needed for a 
 
 5. Add automated tests:
    - API endpoint tests
-   - mission router tests
    - dashboard smoke tests
    - package metadata checks
+   - CI execution against the new TequilaTown launcher
 
 6. Finish operational integrations:
    - Staff SOP lookup data

@@ -41,12 +41,14 @@ TYPE_ROUTES = {
 
 def route_mission(mission: MissionRequest) -> dict:
     text = f"{mission.title} {mission.description} {mission.missionType}".lower()
-    selected = TYPE_ROUTES.get(mission.missionType.lower(), "Orchestrator")
+    mission_type = mission.missionType.lower()
+    selected = TYPE_ROUTES.get(mission_type, "Orchestrator")
 
-    for agent, keywords in KEYWORD_ROUTES:
-        if any(keyword in text for keyword in keywords):
-            selected = agent
-            break
+    if mission_type != "upload brief":
+        for agent, keywords in KEYWORD_ROUTES:
+            if any(keyword in text for keyword in keywords):
+                selected = agent
+                break
 
     prompt = (
         f"Mission: {mission.title}\n"

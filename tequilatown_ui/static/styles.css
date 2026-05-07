@@ -716,6 +716,38 @@ input {
   font-size: 12px;
 }
 
+.mission-run {
+  margin-top: 12px;
+  min-height: 38px;
+  border: 1px solid rgba(111, 185, 184, 0.42);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: rgba(111, 185, 184, 0.14);
+  color: var(--teal);
+  cursor: pointer;
+  font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+}
+
+.mission-run:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.mission-output {
+  display: block;
+  max-height: 260px;
+  overflow: auto;
+  margin: 12px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--ink);
+  white-space: pre-wrap;
+  font: 13px/1.5 "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
 .side-column {
   display: grid;
   gap: 18px;

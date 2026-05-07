@@ -24,6 +24,7 @@ const iconPaths = {
 
 const $ = (selector) => document.querySelector(selector);
 let currentState = null;
+let currentRoute = null;
 
 function icon(name) {
   return `<svg viewBox="0 0 24 24" aria-hidden="true">${iconPaths[name] || iconPaths.agave}</svg>`;
@@ -176,16 +177,79 @@ function bindMissionForm() {
       });
       if (!response.ok) throw new Error("Mission routing failed");
       const route = await response.json();
+      currentRoute = route;
       result.innerHTML = `
         <strong>${route.recommendedAgent}</strong> is the recommended lead.
         <br>${route.nextSteps.join(" ")}
         <br><span class="mission-endpoint">Endpoint: ${route.streamEndpoint}</span>
+        <br><button class="mission-run" id="runMission" type="button">Run Live Mission</button>
+        <pre class="mission-output" id="missionOutput"></pre>
       `;
+      $("#runMission").addEventListener("click", runLiveMission);
     } catch (error) {
       console.error(error);
       result.textContent = "Mission routing is unavailable. Check the local server and try again.";
     }
   });
+}
+
+function extractDelta(payload) {
+  const event = payload?.data;
+  if (!event || typeof event !== "object") return "";
+  if (event.type === "response.output_text.delta") return event.delta || "";
+  if (event.type === "raw_response_event" && event.data?.type === "response.output_text.delta") {
+    return event.data.delta || "";
+  }
+  return "";
+}
+
+async function runLiveMission() {
+  if (!currentRoute) return;
+  const output = $("#missionOutput");
+  const button = $("#runMission");
+  output.textContent = "Starting live AgentSwarm run...\n";
+  button.disabled = true;
+
+  try {
+    const response = await fetch(currentRoute.streamEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+      body: JSON.stringify({
+        message: currentRoute.prompt,
+        recipient_agent: currentRoute.recommendedAgent,
+      }),
+    });
+    if (!response.ok || !response.body) {
+      throw new Error(`AgentSwarm stream returned HTTP ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const chunks = buffer.split("\n\n");
+      buffer = chunks.pop() || "";
+      for (const chunk of chunks) {
+        const dataLine = chunk.split("\n").find((line) => line.startsWith("data: "));
+        if (!dataLine) continue;
+        const raw = dataLine.slice(6);
+        if (raw === "[DONE]") continue;
+        const payload = JSON.parse(raw);
+        if (payload.error) output.textContent += `\n${payload.error}`;
+        const delta = extractDelta(payload);
+        if (delta) output.textContent += delta;
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    output.textContent += `\nLive execution is not ready: ${error.message}`;
+  } finally {
+    button.disabled = false;
+  }
 }
 
 function bindNav() {
